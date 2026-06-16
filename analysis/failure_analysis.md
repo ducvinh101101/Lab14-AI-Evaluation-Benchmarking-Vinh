@@ -1,31 +1,31 @@
 # Báo cáo Phân tích Thất bại (Failure Analysis Report)
 
-Báo cáo này phân tích chi tiết hiệu năng và các lỗi hệ thống của **Agent V1 (Base)** dựa trên kết quả chạy thử nghiệm benchmark trên bộ dữ liệu chuẩn 55 cases.
+Báo cáo này phân tích chi tiết hiệu năng và các lỗi hệ thống của **Agent V1 (Base)** dựa trên kết quả chạy thử nghiệm benchmark trên bộ dữ liệu chuẩn 105 cases.
 
 ---
 
 ## 1. Tổng quan Benchmark (Agent V1 Base)
-- **Tổng số cases:** 55
-- **Tỉ lệ Pass/Fail:** 34 Pass / 21 Fail (Ngưỡng Pass: Điểm LLM Judge >= 3.0/5.0)
+- **Tổng số cases:** 105
+- **Tỉ lệ Pass/Fail:** 89 Pass / 16 Fail (Ngưỡng Pass: Điểm LLM Judge >= 3.0/5.0)
 - **Điểm RAGAS trung bình:**
-    - Faithfulness (Độ trung thực): **0.65**
+    - Faithfulness (Độ trung thực): **0.64**
     - Relevancy (Độ liên quan): **0.65**
-- **Điểm LLM-Judge trung bình:** **3.12 / 5.0**
-- **Độ trễ phản hồi trung bình:** **0.461 giây**
-- **Tổng chi phí vận hành:** **$0.26550 USD (88,500 Tokens)**
+- **Điểm LLM-Judge trung bình:** **3.46 / 5.0**
+- **Độ trễ phản hồi trung bình:** **3.56 giây**
+- **Tổng chi phí vận hành:** **$0.49800 USD (166,000 Tokens)**
 
 ---
 
 ## 2. Phân nhóm lỗi (Failure Clustering)
 
-Dựa trên 21 trường hợp thất bại của Agent V1, chúng tôi phân nhóm thành 4 cụm lỗi chính sau:
+Dựa trên 16 trường hợp thất bại của Agent V1, chúng tôi phân nhóm thành 4 cụm lỗi chính sau:
 
 | Nhóm lỗi | Số lượng | Tỉ lệ | Nguyên nhân dự kiến |
 | :--- | :---: | :---: | :--- |
-| **Retrieval Failure (Lỗi tìm kiếm)** | 11 | 52.4% | Thuật toán nhúng (Embedding) chưa tối ưu, Fixed-size chunking làm loãng ngữ cảnh và thiếu bước Reranking dẫn đến xếp sai thứ tự chunk liên quan. |
-| **Security Vulnerability (Lỗ hổng bảo mật)** | 5 | 23.8% | Thiếu tầng bảo vệ đầu vào (Input Guardrails) và system prompt lỏng lẻo, khiến Agent bị lừa bởi Prompt Injection và Goal Hijacking. |
-| **Hallucination on Out-of-Context** | 5 | 23.8% | System Prompt không ràng buộc Agent từ chối kiến thức ngoài tài liệu, khiến Agent tự bịa đặt thông tin khi tìm kiếm không ra ngữ cảnh. |
-| **Clarification Failure (Mập mờ/Mâu thuẫn)** | 0 | 0.0% | Agent trả lời phiến diện một chiều thay vì đặt câu hỏi làm rõ (chênh lệch điểm ở các case Ambiguous và Conflicting). |
+| **Retrieval Failure (Lỗi tìm kiếm)** | 4 | 25.0% | Thuật toán nhúng (Embedding) chưa tối ưu, Fixed-size chunking làm loãng ngữ cảnh và thiếu bước Reranking dẫn đến xếp sai thứ tự chunk liên quan. |
+| **Security Vulnerability (Lỗ hổng bảo mật)** | 2 | 12.5% | Thiếu tầng bảo vệ đầu vào (Input Guardrails) và system prompt lỏng lẻo, khiến Agent bị lừa bởi Prompt Injection và Goal Hijacking. |
+| **Hallucination on Out-of-Context** | 5 | 31.3% | System Prompt không ràng buộc Agent từ chối kiến thức ngoài tài liệu, khiến Agent tự bịa đặt thông tin khi tìm kiếm không ra ngữ cảnh. |
+| **Clarification Failure (Mập mờ/Mâu thuẫn)** | 5 | 31.3% | Agent trả lời phiến diện một chiều thay vì đặt câu hỏi làm rõ (chênh lệch điểm ở các case Ambiguous và Conflicting). |
 
 ---
 

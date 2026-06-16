@@ -72,12 +72,12 @@ async def run_benchmark(version):
 
 async def main():
     # 1. Chạy Benchmark cho Agent Base V1
-    v1_summary = await run_benchmark("Agent_V1_Base")
+    v1_results, v1_summary = await run_benchmark_with_results("Agent_V1_Base")
     
     # 2. Chạy Benchmark cho Agent Optimized V2
     v2_results, v2_summary = await run_benchmark_with_results("Agent_V2_Optimized")
     
-    if not v1_summary or not v2_summary:
+    if not v1_results or not v2_results:
         print("❌ Không thể chạy Benchmark. Kiểm tra lại data/golden_set.jsonl.")
         return
 
@@ -103,6 +103,11 @@ async def main():
         json.dump(v2_summary, f, ensure_ascii=False, indent=2)
     with open("reports/benchmark_results.json", "w", encoding="utf-8") as f:
         json.dump(v2_results, f, ensure_ascii=False, indent=2)
+        
+    with open("reports/summary_v1.json", "w", encoding="utf-8") as f:
+        json.dump(v1_summary, f, ensure_ascii=False, indent=2)
+    with open("reports/benchmark_results_v1.json", "w", encoding="utf-8") as f:
+        json.dump(v1_results, f, ensure_ascii=False, indent=2)
 
     # Logic Release Gate
     # Chấp nhận release nếu điểm Judge tăng (delta > 0) VÀ hit rate không suy giảm nghiêm trọng
