@@ -1,5 +1,12 @@
 import json
 import os
+import sys
+
+# Reconfigure stdout/stderr to utf-8 for Windows compatibility
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
 
 def validate_lab():
     print("🔍 Đang kiểm tra định dạng bài nộp...")
